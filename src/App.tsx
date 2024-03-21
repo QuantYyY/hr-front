@@ -1,7 +1,13 @@
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Template from './components/Template';
 import * as p from './pages';
+
+import * as applicant from './pages/Applicant';
+import * as vacancy from './pages/Vacancy';
+import * as department from './pages/Department';
+import * as position from './pages/Position';
+
 
 function App() {
 
@@ -10,33 +16,48 @@ function App() {
       path: '/',
       element: <Template />,
       children: [
+        { path: '/', element: <p.Main /> },
+        { path: '/employee', element: <p.Employee /> },
+        { path: '/order', element: <p.Order /> },
         {
-          path: '/',
-          element: <p.Main />
+          path: 'position',
+          children: [
+            { index: true, element: <p.Position /> },
+            { path: 'new', element: <position.PositionNew /> },
+            {
+              path: ':id', element: <position.PositionEdit />
+            },
+          ]
         },
         {
-          path: '/employee',
-          element: <p.Employee />
+          path: 'department',
+          children: [
+            { index: true, element: <p.Department /> },
+            { path: 'new', element: <department.DepartmentNew /> },
+            {
+              path: ':id', element: <department.DepartmentEdit />
+            },
+          ]
         },
         {
-          path: '/order',
-          element: <p.Order />
+          path: 'vacancy',
+          children: [
+            { index: true, element: <p.Vacancy /> },
+            { path: 'new', element: <vacancy.VacancyNew /> },
+            {
+              path: ':id', element: <vacancy.VacancyEdit />
+            },
+          ]
         },
         {
-          path: '/position',
-          element: <p.Position />
-        },
-        {
-          path: '/department',
-          element: <p.Department />
-        },
-        {
-          path: '/vacancy',
-          element: <p.Vacancy />
-        },
-        {
-          path: '/application',
-          element: <p.Application />
+          path: 'applicant',
+          children: [
+            { index: true, element: <p.Applicant /> },
+            { path: 'new', element: <applicant.ApplicantNew /> },
+            {
+              path: ':id', element: <applicant.ApplicantEdit />
+            },
+          ]
         }
       ]
     }

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import '@/sass/pages.sass';
 
 import { CollapseGroup } from '@consta/uikit/CollapseGroup';
@@ -8,24 +8,29 @@ import { Button } from '@consta/uikit/Button';
 import { IconTrash } from '@consta/icons/IconTrash';
 import { IconEdit } from '@consta/icons/IconEdit';
 import { IconAdd } from '@consta/icons/IconAdd';
-import { deletePosition, getPosition } from "@/api/requests";
+import { deleteApplicant, getApplicant, getVacancy } from "@/api/requests";
 import { NavLink } from "react-router-dom";
 
-const PositionAlias: Record<string, string> = {
-    "id_post": "Id",
-    "Members": "Количество участников",
-    "Salary": "Зарплата",
-    "Name": "Наименование",
-    "id_department": "Id Отдела"
+const applicantAlias: Record<string, string> = {
+    "id_applicant": "Id",
+    "FIO": "ФИО",
+    "Passport": "Пасспорт",
+    "INN": "ИНН",
+    "Birthday": "Дата",
+    "Gender": "Пол",
+    "Address": "Адрес",
+    "Resume": "Резюме",
+    "email": "Email",
+    "id_vacancy": "Id Вакансии"
 }
 
-const Position: FC = () => {
-    const [position, setPosition] = useState<positionType[]>([]);
+const Appilicant: FC = () => {
+    const [applicant, setApplicant] = useState<applicantType[]>([]);
 
-    const getPositionData = () => {
-        getPosition()
+    const getApplicantData = () => {
+        getApplicant()
             .then((result) => {
-                setPosition(result);
+                setApplicant(result);
             })
             .catch((err) => {
                 console.log(err)
@@ -33,15 +38,15 @@ const Position: FC = () => {
     }
 
     useEffect(() => {
-        getPositionData();
+        getApplicantData();
     }, [])
 
     const handleDeleteAppilicant = async (id: number) => {
-        await deletePosition(id);
-        await getPositionData()
+        await deleteApplicant(id);
+        await getApplicantData()
     }
 
-    const getItemContent = (item: positionType) => {
+    const getItemContent = (item: applicantType) => {
         const contentItem = Object.entries(item);
 
         return (
@@ -52,13 +57,13 @@ const Position: FC = () => {
                             return (
                                 <>
                                     <Text size="l" view="secondary">
-                                        {PositionAlias[title]}: <Text as="span" size="xl" view="primary">{value}</Text>
+                                        {applicantAlias[title]}: <Text as="span" size="xl" view="primary">{value}</Text>
                                     </Text>
                                 </>
                             )
                         })
                     }
-                    <NavLink to={`${item.id_post}`} end>
+                    <NavLink to={`${item.id_applicant!}`} end>
                         <Button
                             label="Редактировать"
                             onlyIcon
@@ -76,7 +81,7 @@ const Position: FC = () => {
                         style={{ marginTop: '20px', marginLeft: '15px' }}
                         iconRight={IconTrash}
                         onClick={() => {
-                            handleDeleteAppilicant(item.id_post!)
+                            handleDeleteAppilicant(item.id_applicant!)
                         }}
                     />
                 </div>
@@ -87,7 +92,7 @@ const Position: FC = () => {
     return (
         <>
             <div className="header wrap">
-                <h1>Должности</h1>
+                <h1>Соискатели</h1>
 
                 <div className="buttons">
                     <NavLink to='new' end>
@@ -101,12 +106,13 @@ const Position: FC = () => {
             </div>
 
             <CollapseGroup
-                items={position}
-                getItemLabel={(item) => item.Name}
+                items={applicant}
+                getItemLabel={(item) => item.FIO}
                 getItemContent={getItemContent}
             />
+
         </>
     )
 }
 
-export default Position;
+export default Appilicant;

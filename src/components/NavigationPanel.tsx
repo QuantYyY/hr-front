@@ -10,7 +10,7 @@ const NavigationPanel: FC = () => {
         'Должности': 'position',
         'Отделы': 'department',
         'Вакансии': 'vacancy',
-        'Заявки': 'application',
+        'Соискатели': 'applicant',
     }
 
     return (

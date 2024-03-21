@@ -1,6 +1,6 @@
 import Main from "./Main";
 import Employee from "./Employee";
-import Application from "./Application";
+import Applicant from "./Applicant";
 import Department from "./Department";
 import Order from "./Order";
 import Position from "./Position";
@@ -9,7 +9,7 @@ import Vacancy from "./Vacancy";
 export {
     Main,
     Employee,
-    Application,
+    Applicant,
     Department,
     Order,
     Position,
