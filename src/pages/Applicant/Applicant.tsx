@@ -27,6 +27,8 @@ const applicantAlias: Record<string, string> = {
 const Appilicant: FC = () => {
     const [applicant, setApplicant] = useState<applicantType[]>([]);
 
+    const userRole = localStorage.getItem('role_name');
+
     const getApplicantData = () => {
         getApplicant()
             .then((result) => {
@@ -63,7 +65,7 @@ const Appilicant: FC = () => {
                             )
                         })
                     }
-                    <NavLink to={`${item.id_applicant!}`} end>
+                    {(userRole === 'Admin' || userRole === 'Employer') ? <><NavLink to={`${item.id_applicant!}`} end>
                         <Button
                             label="Редактировать"
                             onlyIcon
@@ -73,17 +75,17 @@ const Appilicant: FC = () => {
                             iconRight={IconEdit}
                         />
                     </NavLink>
-                    <Button
-                        label="Удалить"
-                        onlyIcon
-                        view="ghost"
-                        size="s"
-                        style={{ marginTop: '20px', marginLeft: '15px' }}
-                        iconRight={IconTrash}
-                        onClick={() => {
-                            handleDeleteAppilicant(item.id_applicant!)
-                        }}
-                    />
+                        <Button
+                            label="Удалить"
+                            onlyIcon
+                            view="ghost"
+                            size="s"
+                            style={{ marginTop: '20px', marginLeft: '15px' }}
+                            iconRight={IconTrash}
+                            onClick={() => {
+                                handleDeleteAppilicant(item.id_applicant!)
+                            }}
+                        /></> : <></>}
                 </div>
             </>
         )
@@ -94,15 +96,16 @@ const Appilicant: FC = () => {
             <div className="header wrap">
                 <h1>Соискатели</h1>
 
-                <div className="buttons">
-                    <NavLink to='new' end>
-                        <Button
-                            label="Добавить"
-                            iconRight={IconAdd}
-                        />
-                    </NavLink>
-
-                </div>
+                {
+                    (userRole === 'Admin' || userRole === 'Employer') ? <div className="buttons">
+                        <NavLink to='new' end>
+                            <Button
+                                label="Добавить"
+                                iconRight={IconAdd}
+                            />
+                        </NavLink>
+                    </div> : <></>
+                }
             </div>
 
             <CollapseGroup

@@ -7,7 +7,21 @@ axiosApi.interceptors.request.use(
         config.baseURL = 'http://127.0.0.1:8000';
         config.headers = {
             'Accept': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
             'Content-Type': 'application/json'
+        } as AxiosRequestHeaders;
+        return config;
+    }
+);
+
+const axiosApiLogin = axios.create();
+
+axiosApiLogin.interceptors.request.use(
+    async config => {
+        config.baseURL = 'http://127.0.0.1:8000';
+        config.headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
         } as AxiosRequestHeaders;
         return config;
     }
@@ -25,6 +39,41 @@ const checkAxiosResponse = (response: AxiosResponse) => {
 const catchAxiosResponse = (error: AxiosError) => {
     return Promise.reject(error.response);
 }
+
+// Авторизация
+
+export const authLogin = (data: any) => {
+    const url = '/auth/login';
+
+    return axiosApiLogin.post(url, data)
+        .then(checkAxiosResponse)
+        .catch(catchAxiosResponse);
+}
+
+export const getUser = () => {
+    const url = '/users/me';
+
+    return axiosApi.get(url)
+        .then(checkAxiosResponse)
+        .catch(catchAxiosResponse);
+}
+
+export const authLogout = () => {
+    const url = '/auth/logout';
+    return axiosApiLogin.post(url)
+        .then(checkAxiosResponse)
+        .catch(catchAxiosResponse);
+}
+
+export const getAllUsers = () => {
+    const url = '/allusers';
+
+    return axiosApi.get(url)
+        .then(checkAxiosResponse)
+        .catch(catchAxiosResponse);
+}
+
+// Запросы по таблицам
 
 export const getApplicant = () => {
     const url = '/applicant/';
@@ -133,6 +182,35 @@ export const putPosition = (id: number, data: applicantType) => {
 
 export const deletePosition = (id: number) => {
     const url = `/post/?id_post=${id}`;
+    return axiosApi.delete(url)
+        .then(checkAxiosResponse)
+        .catch(catchAxiosResponse);
+}
+
+
+export const getOrder = () => {
+    const url = '/order/';
+    return axiosApi.get(url)
+        .then(checkAxiosResponse)
+        .catch(catchAxiosResponse);
+}
+
+export const postOrder = (data: applicantType) => {
+    const url = '/order/';
+    return axiosApi.post(url, data)
+        .then(checkAxiosResponse)
+        .catch(catchAxiosResponse);
+}
+
+export const putOrder = (id: number, data: applicantType) => {
+    const url = `/order/?id_order=${id}`;
+    return axiosApi.put(url, data)
+        .then(checkAxiosResponse)
+        .catch(catchAxiosResponse);
+}
+
+export const deleteOrder = (id: number) => {
+    const url = `/order/?id_order=${id}`;
     return axiosApi.delete(url)
         .then(checkAxiosResponse)
         .catch(catchAxiosResponse);

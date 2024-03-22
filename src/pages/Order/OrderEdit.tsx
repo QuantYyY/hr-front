@@ -1,15 +1,36 @@
 import { FC, useEffect, useState } from "react";
-import { getAllUsers, getDepartment, putDepartment } from "@/api/requests";
+import { getAllUsers, getDepartment, getOrder, getPosition, putOrder } from "@/api/requests";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@consta/uikit/Button";
 import dayjs from "dayjs";
 
-export const DepartmentEdit: FC = () => {
+export const OrderEdit: FC = () => {
     const { id } = useParams();
 
-    const [department, setDepartment] = useState<departmentType>();
+    const [order, setOrder] = useState<orderType>();
+    const [position, setPosition] = useState<positionType[]>([]);
     const [users, setUsers] = useState<any[]>([]);
+
+    const getOrderData = () => {
+        getOrder()
+            .then((result) => {
+                setOrder(result.find((el: orderType) => el.id_order === Number(id)));
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    const getPositionData = () => {
+        getPosition()
+            .then((result) => {
+                setPosition(result);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     const getUsersData = () => {
         getAllUsers()
@@ -21,25 +42,20 @@ export const DepartmentEdit: FC = () => {
             })
     }
 
-    const getDepartmentData = () => {
-        getDepartment()
-            .then((result) => {
-                setDepartment(result.find((el: departmentType) => el.id_department === Number(id)));
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-
     useEffect(() => {
-        getDepartmentData();
+        getOrderData();
+        getPositionData();
         getUsersData();
     }, [])
 
     const onSubmit = async (data: any) => {
-        await putDepartment(Number(id), data);
+        const newData = {
+            ...data,
+            Date: dayjs(`${data.Date} GMT`, 'YYYY-MM-DD').toISOString()
+        }
+        await putOrder(Number(id), newData);
         reset();
-        getDepartmentData();
+        getOrderData();
     }
 
     const {
@@ -47,7 +63,7 @@ export const DepartmentEdit: FC = () => {
         handleSubmit,
         reset
     } = useForm({
-        values: department
+        values: order
     });
 
     return (
@@ -56,35 +72,51 @@ export const DepartmentEdit: FC = () => {
 
                 <form onSubmit={handleSubmit(onSubmit)}>
 
-                    <label className="text-field__label">Название отдела</label>
+                    <label className="text-field__label">Тип</label>
                     <input
                         className="text-field__input"
                         type="text"
-                        {...register('Name', {
+                        {...register('Type', {
                             required: true
                         })}
                     />
 
-                    <label className="text-field__label">Описание</label>
+                    <label className="text-field__label">Дата</label>
                     <input
                         className="text-field__input"
+                        placeholder="1990-01-20"
                         type="text"
-                        {...register('Description', {
+                        {...register('Date', {
                             required: true
                         })}
                     />
 
-                    <label className="text-field__label">Id Начальника</label>
+                    <label className="text-field__label">Сотрудник</label>
                     <select
                         style={{ padding: '0' }}
                         className="text-field__input"
-                        {...register('id_director', {
+                        {...register('staff_id', {
                             required: true
                         })}
                     >
                         {
                             users.map(el => (
                                 <option value={Number(el.id)}>{el.FIO}</option>
+                            ))
+                        }
+                    </select>
+
+                    <label className="text-field__label">Должность</label>
+                    <select
+                        style={{ padding: '0' }}
+                        className="text-field__input"
+                        {...register('post_id', {
+                            required: true
+                        })}
+                    >
+                        {
+                            position.map(el => (
+                                <option value={Number(el.id_post)}>{el.Name}</option>
                             ))
                         }
                     </select>

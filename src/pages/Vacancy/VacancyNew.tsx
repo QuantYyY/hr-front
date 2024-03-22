@@ -61,7 +61,7 @@ export const VacancyNew: FC = () => {
                     <select
                         style={{ padding: '0' }}
                         className="text-field__input"
-                        {...register('id_vacancy', {
+                        {...register('department_id', {
                             required: true
                         })}
                     >

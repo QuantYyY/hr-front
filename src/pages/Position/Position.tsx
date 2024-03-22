@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import '@/sass/pages.sass';
 
 import { CollapseGroup } from '@consta/uikit/CollapseGroup';
@@ -16,11 +16,12 @@ const PositionAlias: Record<string, string> = {
     "Members": "Количество участников",
     "Salary": "Зарплата",
     "Name": "Наименование",
-    "id_department": "Id Отдела"
+    "department_id": "Id Отдела"
 }
 
 const Position: FC = () => {
     const [position, setPosition] = useState<positionType[]>([]);
+    const userRole = localStorage.getItem('role_name');
 
     const getPositionData = () => {
         getPosition()
@@ -58,27 +59,29 @@ const Position: FC = () => {
                             )
                         })
                     }
-                    <NavLink to={`${item.id_post}`} end>
-                        <Button
-                            label="Редактировать"
-                            onlyIcon
-                            view="ghost"
-                            size="s"
-                            style={{ marginTop: '20px' }}
-                            iconRight={IconEdit}
-                        />
-                    </NavLink>
-                    <Button
-                        label="Удалить"
-                        onlyIcon
-                        view="ghost"
-                        size="s"
-                        style={{ marginTop: '20px', marginLeft: '15px' }}
-                        iconRight={IconTrash}
-                        onClick={() => {
-                            handleDeleteAppilicant(item.id_post!)
-                        }}
-                    />
+                    {
+                        (userRole === 'Admin' || userRole === 'Employer') ? <><NavLink to={`${item.id_post}`} end>
+                            <Button
+                                label="Редактировать"
+                                onlyIcon
+                                view="ghost"
+                                size="s"
+                                style={{ marginTop: '20px' }}
+                                iconRight={IconEdit}
+                            />
+                        </NavLink>
+                            <Button
+                                label="Удалить"
+                                onlyIcon
+                                view="ghost"
+                                size="s"
+                                style={{ marginTop: '20px', marginLeft: '15px' }}
+                                iconRight={IconTrash}
+                                onClick={() => {
+                                    handleDeleteAppilicant(item.id_post!)
+                                }}
+                            /></> : <></>
+                    }
                 </div>
             </>
         )
@@ -89,15 +92,16 @@ const Position: FC = () => {
             <div className="header wrap">
                 <h1>Должности</h1>
 
-                <div className="buttons">
-                    <NavLink to='new' end>
-                        <Button
-                            label="Добавить"
-                            iconRight={IconAdd}
-                        />
-                    </NavLink>
-
-                </div>
+                {
+                    (userRole === 'Admin' || userRole === 'Employer') ? <div className="buttons">
+                        <NavLink to='new' end>
+                            <Button
+                                label="Добавить"
+                                iconRight={IconAdd}
+                            />
+                        </NavLink>
+                    </div> : <></>
+                }
             </div>
 
             <CollapseGroup

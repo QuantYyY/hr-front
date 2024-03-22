@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@consta/uikit": "^5.1.0",
+    "@nanostores/react": "^0.7.2",
     "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "nanostores": "^0.10.0",

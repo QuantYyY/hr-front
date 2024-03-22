@@ -21,6 +21,8 @@ const vacancyAlias: Record<string, string> = {
 const Vacancy: FC = () => {
     const [vacancy, setVacancy] = useState<vacancyType[]>([]);
 
+    const userRole = localStorage.getItem('role_name');
+
     const getVacancyData = () => {
         getVacancy()
             .then((result) => {
@@ -57,27 +59,31 @@ const Vacancy: FC = () => {
                             )
                         })
                     }
-                    <NavLink to={`${item.id_vacancy}`} end>
-                        <Button
-                            label="Редактировать"
-                            onlyIcon
-                            view="ghost"
-                            size="s"
-                            style={{ marginTop: '20px' }}
-                            iconRight={IconEdit}
-                        />
-                    </NavLink>
-                    <Button
-                        label="Удалить"
-                        onlyIcon
-                        view="ghost"
-                        size="s"
-                        style={{ marginTop: '20px', marginLeft: '15px' }}
-                        iconRight={IconTrash}
-                        onClick={() => {
-                            handleDeleteAppilicant(item.id_vacancy!)
-                        }}
-                    />
+                    {
+                        (userRole === 'Admin' || userRole === 'Employer') ?
+                            <>
+                                <NavLink to={`${item.id_vacancy}`} end>
+                                    <Button
+                                        label="Редактировать"
+                                        onlyIcon
+                                        view="ghost"
+                                        size="s"
+                                        style={{ marginTop: '20px' }}
+                                        iconRight={IconEdit}
+                                    />
+                                </NavLink>
+                                <Button
+                                    label="Удалить"
+                                    onlyIcon
+                                    view="ghost"
+                                    size="s"
+                                    style={{ marginTop: '20px', marginLeft: '15px' }}
+                                    iconRight={IconTrash}
+                                    onClick={() => {
+                                        handleDeleteAppilicant(item.id_vacancy!)
+                                    }}
+                                /></> : <></>
+                    }
                 </div>
             </>
         )
@@ -88,15 +94,16 @@ const Vacancy: FC = () => {
             <div className="header wrap">
                 <h1>Вакансии</h1>
 
-                <div className="buttons">
-                    <NavLink to='new' end>
-                        <Button
-                            label="Добавить"
-                            iconRight={IconAdd}
-                        />
-                    </NavLink>
-
-                </div>
+                {
+                    (userRole === 'Admin' || userRole === 'Employer') ? <div className="buttons">
+                        <NavLink to='new' end>
+                            <Button
+                                label="Добавить"
+                                iconRight={IconAdd}
+                            />
+                        </NavLink>
+                    </div> : <></>
+                }
             </div>
 
             <CollapseGroup

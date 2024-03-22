@@ -1,6 +1,10 @@
 import React, { FC } from "react";
 import '@/sass/navigation-panel.sass';
 import { NavLink } from 'react-router-dom';
+import { Button } from "@consta/uikit/Button";
+
+import { IconExit } from "@/icons/IconExit";
+import { authLogout } from "@/api/requests";
 
 const NavigationPanel: FC = () => {
 
@@ -31,6 +35,20 @@ const NavigationPanel: FC = () => {
                                 )
                             })
                         }
+
+                        <Button
+                            label='logout'
+                            onlyIcon
+                            size="m"
+                            view="clear"
+                            iconLeft={IconExit}
+                            onClick={() => {
+                                authLogout();
+                                localStorage.removeItem('token');
+                                localStorage.removeItem('user');
+                                location.reload();
+                            }}
+                        />
                     </div>
                 </div>
             </div>

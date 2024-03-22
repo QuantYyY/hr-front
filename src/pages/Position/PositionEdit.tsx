@@ -3,7 +3,6 @@ import { getDepartment, getPosition, putPosition } from "@/api/requests";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@consta/uikit/Button";
-import dayjs from "dayjs";
 
 export const PositionEdit: FC = () => {
     const { id } = useParams();

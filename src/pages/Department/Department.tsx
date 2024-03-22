@@ -20,6 +20,7 @@ const departmentAlias: Record<string, string> = {
 
 const Department: FC = () => {
     const [department, setDepartment] = useState<departmentType[]>([]);
+    const userRole = localStorage.getItem('role_name');
 
     const getDepartmentData = () => {
         getDepartment()
@@ -57,27 +58,29 @@ const Department: FC = () => {
                             )
                         })
                     }
-                    <NavLink to={`${item.id_department}`} end>
-                        <Button
-                            label="Редактировать"
-                            onlyIcon
-                            view="ghost"
-                            size="s"
-                            style={{ marginTop: '20px' }}
-                            iconRight={IconEdit}
-                        />
-                    </NavLink>
-                    <Button
-                        label="Удалить"
-                        onlyIcon
-                        view="ghost"
-                        size="s"
-                        style={{ marginTop: '20px', marginLeft: '15px' }}
-                        iconRight={IconTrash}
-                        onClick={() => {
-                            handleDeleteAppilicant(item.id_department!)
-                        }}
-                    />
+                    {
+                        (userRole === 'Admin' || userRole === 'Employer') ? <><NavLink to={`${item.id_department}`} end>
+                            <Button
+                                label="Редактировать"
+                                onlyIcon
+                                view="ghost"
+                                size="s"
+                                style={{ marginTop: '20px' }}
+                                iconRight={IconEdit}
+                            />
+                        </NavLink>
+                            <Button
+                                label="Удалить"
+                                onlyIcon
+                                view="ghost"
+                                size="s"
+                                style={{ marginTop: '20px', marginLeft: '15px' }}
+                                iconRight={IconTrash}
+                                onClick={() => {
+                                    handleDeleteAppilicant(item.id_department!)
+                                }}
+                            /></> : <></>
+                    }
                 </div>
             </>
         )
@@ -88,15 +91,16 @@ const Department: FC = () => {
             <div className="header wrap">
                 <h1>Отделы</h1>
 
-                <div className="buttons">
-                    <NavLink to='new' end>
-                        <Button
-                            label="Добавить"
-                            iconRight={IconAdd}
-                        />
-                    </NavLink>
-
-                </div>
+                {
+                    (userRole === 'Admin' || userRole === 'Employer') ? <div className="buttons">
+                        <NavLink to='new' end>
+                            <Button
+                                label="Добавить"
+                                iconRight={IconAdd}
+                            />
+                        </NavLink>
+                    </div> : <></>
+                }
             </div>
 
             <CollapseGroup

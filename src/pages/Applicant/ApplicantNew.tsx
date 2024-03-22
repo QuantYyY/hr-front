@@ -18,7 +18,7 @@ const ApplicantNew: FC = () => {
     const onSubmit = (data: any) => {
         const newData = {
             ...data,
-            Birthday: dayjs(data.Birthday).toISOString()
+            Birthday: dayjs(`${data.Birthday} GMT`, 'YYYY-MM-DD').toISOString()
         }
         postApplicant(newData);
         reset();
@@ -38,7 +38,6 @@ const ApplicantNew: FC = () => {
         getVacancyData();
     }, [])
 
-
     return (
         <>
             <div className="new">
@@ -54,7 +53,7 @@ const ApplicantNew: FC = () => {
                         })}
                     />
 
-                    <label className="text-field__label">Пасспорт</label>
+                    <label className="text-field__label">Паспорт</label>
                     <input
                         className="text-field__input"
                         type="text"
@@ -75,6 +74,7 @@ const ApplicantNew: FC = () => {
                     <label className="text-field__label">Дата</label>
                     <input
                         className="text-field__input"
+                        placeholder="1990-01-20"
                         type="text"
                         {...register('Birthday', {
                             required: true

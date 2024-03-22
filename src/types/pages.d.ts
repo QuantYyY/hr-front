@@ -32,3 +32,11 @@ type positionType = {
     Salary: number,
     department_id: number,
 }
+
+type orderType = {
+    id_order?: number,
+    Type: string,
+    Date: string,
+    staff_id: number,
+    post_id: number
+}

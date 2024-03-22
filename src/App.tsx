@@ -7,7 +7,7 @@ import * as applicant from './pages/Applicant';
 import * as vacancy from './pages/Vacancy';
 import * as department from './pages/Department';
 import * as position from './pages/Position';
-
+import * as order from './pages/Order';
 
 function App() {
 
@@ -18,7 +18,16 @@ function App() {
       children: [
         { path: '/', element: <p.Main /> },
         { path: '/employee', element: <p.Employee /> },
-        { path: '/order', element: <p.Order /> },
+        {
+          path: 'order',
+          children: [
+            { index: true, element: <p.Order /> },
+            { path: 'new', element: <order.OrderNew /> },
+            {
+              path: ':id', element: <order.OrderEdit />
+            },
+          ]
+        },
         {
           path: 'position',
           children: [
