@@ -69,20 +69,23 @@ const Order: FC = () => {
                                 style={{ marginTop: '20px' }}
                                 iconRight={IconEdit}
                             />
-                        </NavLink>
-                            <Button
-                                label="Удалить"
-                                onlyIcon
-                                view="ghost"
-                                size="s"
-                                style={{ marginTop: '20px', marginLeft: '15px' }}
-                                iconRight={IconTrash}
-                                onClick={() => {
-                                    handleDeleteAppilicant(item.id_order!)
-                                }}
-                            /></> : <></>
+                        </NavLink></> : <></>
                     }
-                </div>
+
+                    {
+                        (userRole === 'Admin') ? <Button
+                            label="Удалить"
+                            onlyIcon
+                            view="ghost"
+                            size="s"
+                            style={{ marginTop: '20px', marginLeft: '15px' }}
+                            iconRight={IconTrash}
+                            onClick={() => {
+                                handleDeleteAppilicant(item.id_order!)
+                            }}
+                        /> : <></>
+                    }
+                </div >
             </>
         )
     }

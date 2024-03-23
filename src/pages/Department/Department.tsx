@@ -59,7 +59,7 @@ const Department: FC = () => {
                         })
                     }
                     {
-                        (userRole === 'Admin' || userRole === 'Employer') ? <><NavLink to={`${item.id_department}`} end>
+                        (userRole === 'Admin') ? <><NavLink to={`${item.id_department}`} end>
                             <Button
                                 label="Редактировать"
                                 onlyIcon
@@ -92,7 +92,7 @@ const Department: FC = () => {
                 <h1>Отделы</h1>
 
                 {
-                    (userRole === 'Admin' || userRole === 'Employer') ? <div className="buttons">
+                    (userRole === 'Admin') ? <div className="buttons">
                         <NavLink to='new' end>
                             <Button
                                 label="Добавить"

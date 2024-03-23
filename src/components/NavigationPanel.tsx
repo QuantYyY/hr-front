@@ -46,6 +46,7 @@ const NavigationPanel: FC = () => {
                                 authLogout();
                                 localStorage.removeItem('token');
                                 localStorage.removeItem('user');
+                                localStorage.removeItem('role_name');
                                 location.reload();
                             }}
                         />

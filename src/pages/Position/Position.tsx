@@ -69,7 +69,12 @@ const Position: FC = () => {
                                 style={{ marginTop: '20px' }}
                                 iconRight={IconEdit}
                             />
-                        </NavLink>
+                        </NavLink></> : <></>
+
+                    }
+
+                    {
+                        (userRole === 'Admin') ? <>
                             <Button
                                 label="Удалить"
                                 onlyIcon
@@ -80,9 +85,10 @@ const Position: FC = () => {
                                 onClick={() => {
                                     handleDeleteAppilicant(item.id_post!)
                                 }}
-                            /></> : <></>
+                            /></> : <>
+                        </>
                     }
-                </div>
+                </div >
             </>
         )
     }
@@ -93,7 +99,7 @@ const Position: FC = () => {
                 <h1>Должности</h1>
 
                 {
-                    (userRole === 'Admin' || userRole === 'Employer') ? <div className="buttons">
+                    (userRole === 'Admin') ? <div className="buttons">
                         <NavLink to='new' end>
                             <Button
                                 label="Добавить"
