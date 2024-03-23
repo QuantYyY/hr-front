@@ -13,8 +13,8 @@ export const Auth: FC = () => {
     const onClick = () => {
         const data = {
             grant_type: 'password',
-            username: 'maxkhirug@gmail.com',
-            password: 'qwerty123',
+            username: login,
+            password: password,
             scope: 'read_write',
             client_id: 'your_client_id',
             client_secret: 'your_client_secret',
